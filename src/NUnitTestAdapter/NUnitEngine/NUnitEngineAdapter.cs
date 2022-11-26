@@ -58,13 +58,12 @@ namespace NUnit.VisualStudio.TestAdapter.NUnitEngine
 
         public void Initialize()
         {
-#if NET462
             var engineX = new TestEngine();
-#else
+#if OLD
             var engineX = TestEngineActivator.CreateInstance();
 #endif
             InternalEngineCreated?.Invoke(engineX);
-            TestEngine = engineX;
+            TestEngine = engineX ?? throw new NUnitEngineException("Not able to create NUnit.Engine");
             var tmpPath = Path.Combine(Path.GetTempPath(), "NUnit.Engine");
             if (!Directory.Exists(tmpPath))
                 Directory.CreateDirectory(tmpPath);

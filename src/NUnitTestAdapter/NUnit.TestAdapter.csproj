@@ -31,6 +31,7 @@
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" />
     <PackageReference Include="nunit.engine" Version="3.16.0" />
     <PackageReference Include="TestCentric.Metadata" Version="1.7.1" Aliases="TestCentric" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
