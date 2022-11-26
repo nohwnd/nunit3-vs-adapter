@@ -20,11 +20,16 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
     <!-- Suppress errors from https://github.com/dotnet/sdk/issues/1897-->
     <DisableHandlePackageFileConflicts>false</DisableHandlePackageFileConflicts>
+   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" />
-    <PackageReference Include="nunit.engine" Version="3.15.2" />
+    <PackageReference Include="nunit.engine" Version="3.16.0" />
     <PackageReference Include="TestCentric.Metadata" Version="1.7.1" Aliases="TestCentric" />
   </ItemGroup>
 
@@ -34,7 +39,7 @@
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="15.0.0" PrivateAssets="All" />
-  </ItemGroup>
+ </ItemGroup>
 
   <ItemGroup>
     <Folder Include="TestFilterConverter\" />

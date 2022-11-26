@@ -19,14 +19,21 @@
     <PackageReference Include="NUnit.Analyzers" Version="3.5.0" />
   </ItemGroup>
 
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net462' ">
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    </PropertyGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="11.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+    <!--<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />-->
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.4.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+    
+
+    <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="15.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
   </ItemGroup>
 
   <ItemGroup>

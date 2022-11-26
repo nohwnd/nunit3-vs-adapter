@@ -70,25 +70,27 @@ namespace NUnit.VisualStudio.TestAdapter.Tests
             var className = Prefix + suffix;
             var data = _provider.GetNavigationData(className, methodName);
             Assert.That(data.IsValid, "Unable to retrieve navigation data");
+            Assert.Multiple(() =>
+            {
+                // Verify the navigation data
+                // Note that different line numbers are returned for our
+                // debug and release builds, as follows:
+                //
+                // DEBUG
+                //   Opening curly brace.
+                //
+                // RELEASE
+                //   First non-comment code line or closing
+                //   curly brace if the method is empty.
 
-            // Verify the navigation data
-            // Note that different line numbers are returned for our
-            // debug and release builds, as follows:
-            //
-            // DEBUG
-            //   Opening curly brace.
-            //
-            // RELEASE
-            //   First non-comment code line or closing
-            //   curly brace if the method is empty.
-
-            Assert.That(data.FilePath, Does.EndWith("NavigationTestData.cs"));
-            Assert.That(Path.GetDirectoryName(data.FilePath), Does.EndWith(expectedDirectory));
+                Assert.That(data.FilePath, Does.EndWith("NavigationTestData.cs"));
+                Assert.That(Path.GetDirectoryName(data.FilePath), Does.EndWith(expectedDirectory));
 #if DEBUG
-            Assert.That(data.LineNumber, Is.EqualTo(expectedLineDebug));
+                Assert.That(data.LineNumber, Is.EqualTo(expectedLineDebug));
 #else
-            Assert.That(data.LineNumber, Is.EqualTo(expectedLineRelease));
+                Assert.That(data.LineNumber, Is.EqualTo(expectedLineRelease));
 #endif
+            });
         }
     }
 }
