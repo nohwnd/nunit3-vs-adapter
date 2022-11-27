@@ -13,7 +13,7 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 var version = "4.4.0";
-var modifier = "-beta.1.1";
+var modifier = "-beta.1";
 
 
 var dbgSuffix = configuration.ToLower() == "debug" ? "-dbg" : "";
@@ -170,9 +170,9 @@ string GetTestAssemblyPath(string framework)
     return SRC_DIR + $"NUnitTestAdapterTests/bin/{configuration}/{framework}/NUnit.VisualStudio.TestAdapter.Tests.dll";
 }
 
-foreach (var (framework, vstestFramework, adapterDir) in new[] {
-    ("net46", "Framework45", ADAPTER_BIN_DIR_NET462),
-    (NETCOREAPP_TFM, NETCOREAPP_TFM, ADAPTER_BIN_DIR_NETCOREAPP)
+foreach (var (framework, adapterDir) in new[] {
+    ("net462", ADAPTER_BIN_DIR_NET462),
+    (NETCOREAPP_TFM, ADAPTER_BIN_DIR_NETCOREAPP)
 })
 {
     Task($"VSTest-{framework}")
@@ -300,9 +300,9 @@ Task("Rebuild")
     .IsDependentOn("Build");
 
 Task("Test")
-    .IsDependentOn("VSTest-net46")
+    .IsDependentOn("VSTest-net462")
     .IsDependentOn("VSTest-" + NETCOREAPP_TFM)
-    .IsDependentOn("DotnetTest-net46")
+    .IsDependentOn("DotnetTest-net462")
     .IsDependentOn("DotnetTest-" + NETCOREAPP_TFM);
 
 Task("Package")
