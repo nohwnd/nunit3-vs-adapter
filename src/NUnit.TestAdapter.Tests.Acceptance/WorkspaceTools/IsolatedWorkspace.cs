@@ -60,9 +60,10 @@ public sealed partial class IsolatedWorkspace(DirectoryMutex directoryMutex, Too
     /// <param name="noBuild">if you run MSBuild or dotnet build first, set to false.</param>
     /// <param name="verbose">Set NUnit verbosity to 5, enables seing more info from the run in StdOut.</param>
     /// <returns>VSTestResults.</returns>
-    public VSTestResult DotNetTest(string filterArgument = "", bool noBuild = false, bool verbose = false, Action<string> log = null)
+    public VSTestResult DotNetTest(string filterArgument = "", bool noBuild = false, bool verbose = false, bool debug = false, Action<string> log = null)
     {
         using var tempTrxFile = new TempFile();
+        bool inNUnitSection = false;
 
         var dotnettest = ConfigureRun("dotnet")
             .Add("test")
@@ -79,12 +80,25 @@ public sealed partial class IsolatedWorkspace(DirectoryMutex directoryMutex, Too
         else if (hasNUnitWhere)
         {
             dotnettest.Add("--").Add(filterArgument);
+            inNUnitSection = true;
         }
         if (verbose)
         {
-            if (!hasNUnitWhere)
+            if (!inNUnitSection)
+            {
                 dotnettest.Add("--");
+                inNUnitSection = true;
+            }
             dotnettest.Add("NUnit.Verbosity=5");
+        }
+        if (debug)
+        {
+            if (!inNUnitSection)
+            {
+                dotnettest.Add("--");
+                inNUnitSection = true;
+            }
+            dotnettest.Add("NUnit.Debug=true");
         }
         log?.Invoke($"\n{dotnettest.ArgumentsAsEscapedString}");
         var result = dotnettest.Run(throwOnError: false);

@@ -7,7 +7,7 @@ public sealed class FilterTests : CsProjAcceptanceTests
 {
     protected override void AddTestsCs(IsolatedWorkspace workspace)
     {
-            workspace.AddFile("Tests.cs", @"
+        workspace.AddFile("Tests.cs", @"
                 using NUnit.Framework;
 
                 namespace Filter
@@ -34,7 +34,7 @@ public sealed class FilterTests : CsProjAcceptanceTests
                         }
                     }
                 }");
-        }
+    }
 
     protected override string Framework => Frameworks.NetCoreApp31;
 
@@ -51,10 +51,10 @@ public sealed class FilterTests : CsProjAcceptanceTests
     // [TestCase(@"FullyQualifiedName~Foo", 1, 1)]
     public void Filter_DotNetTest(string filter, int executed, int total)
     {
-            var workspace = Build();
-            var results = workspace.DotNetTest(filter, true, true, TestContext.WriteLine);
-            Verify(executed, total, results);
-        }
+        var workspace = Build();
+        var results = workspace.DotNetTest(filter, true, true, false, TestContext.WriteLine);
+        Verify(executed, total, results);
+    }
 
     [Test, Platform("Win")]
     [TestCase(NoFilter, 2, 3)]
@@ -65,10 +65,10 @@ public sealed class FilterTests : CsProjAcceptanceTests
     [TestCase("TestCategory=XXXX", 0, 0)]
     public void Filter_VSTest(string filter, int executed, int total)
     {
-            var workspace = Build();
-            var results = workspace.VSTest($@"bin\Debug\{Framework}\Test.dll", new VsTestTestCaseFilter(filter));
-            Verify(executed, total, results);
-        }
+        var workspace = Build();
+        var results = workspace.VSTest($@"bin\Debug\{Framework}\Test.dll", new VsTestTestCaseFilter(filter));
+        Verify(executed, total, results);
+    }
 
     [Test, Platform("Win")]
     [TestCase(NoFilter, 2, 3)]
@@ -83,9 +83,9 @@ public sealed class FilterTests : CsProjAcceptanceTests
     // [TestCase("test=~Foo", 1, 1)]
     public void Filter_DotNetTest_NUnitWhere(string filter, int executed, int total)
     {
-            var workspace = Build();
-            var nunitWhere = $"NUnit.Where={filter}";
-            var results = workspace.DotNetTest(nunitWhere, true, true, TestContext.WriteLine);
-            Verify(executed, total, results);
-        }
+        var workspace = Build();
+        var nunitWhere = $"NUnit.Where={filter}";
+        var results = workspace.DotNetTest(nunitWhere, true, true, false, TestContext.WriteLine);
+        Verify(executed, total, results);
+    }
 }

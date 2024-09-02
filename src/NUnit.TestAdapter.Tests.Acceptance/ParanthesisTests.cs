@@ -79,7 +79,7 @@ public sealed class ParanthesisTests : CsProjAcceptanceTests
     public void DotnetTestCases(string filter, int executed, int total)
     {
         var workspace = Build();
-        var results = workspace.DotNetTest(filter, true, true, TestContext.WriteLine);
+        var results = workspace.DotNetTest(filter, true, true, false, TestContext.WriteLine);
         Verify(executed, total, results);
     }
 }

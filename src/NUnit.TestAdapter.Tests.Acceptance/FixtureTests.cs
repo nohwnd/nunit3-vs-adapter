@@ -7,7 +7,7 @@ public sealed class FixtureTests : CsProjAcceptanceTests
 {
     protected override void AddTestsCs(IsolatedWorkspace workspace)
     {
-            workspace.AddFile("Issue918.cs", @"
+        workspace.AddFile("Issue918.cs", @"
                 using System;
                 using NUnit.Framework;
 
@@ -33,7 +33,7 @@ public sealed class FixtureTests : CsProjAcceptanceTests
                     }
                 }");
 
-            workspace.AddFile("Issue869.cs", @"
+        workspace.AddFile("Issue869.cs", @"
                 using NUnit.Framework;
                 using System;
                 using System.Collections.Generic;
@@ -59,7 +59,7 @@ public sealed class FixtureTests : CsProjAcceptanceTests
                     }
                 }");
 
-            workspace.AddFile("Issue884.SetupFixture.cs", @"
+        workspace.AddFile("Issue884.SetupFixture.cs", @"
                 using NUnit.Framework;
 
                 namespace NUnitTestAdapterIssueRepro
@@ -78,7 +78,7 @@ public sealed class FixtureTests : CsProjAcceptanceTests
                         }
                     }
                 }");
-            workspace.AddFile("Issue884.Tests.cs", @"
+        workspace.AddFile("Issue884.Tests.cs", @"
                 using NUnit.Framework;
 
                 namespace NUnitTestAdapterIssueRepro
@@ -105,7 +105,7 @@ public sealed class FixtureTests : CsProjAcceptanceTests
                         }
                     }
                 }");
-        }
+    }
 
     protected override string Framework => Frameworks.NetCoreApp31;
 
@@ -115,10 +115,10 @@ public sealed class FixtureTests : CsProjAcceptanceTests
     [TestCase("TestCategory=918", 1, 1)]
     public void DotNetTest(string filter, int executed, int total)
     {
-            var workspace = Build();
-            var results = workspace.DotNetTest(filter, true, true, TestContext.WriteLine);
-            Verify(executed, total, results);
-        }
+        var workspace = Build();
+        var results = workspace.DotNetTest(filter, true, true, false, TestContext.WriteLine);
+        Verify(executed, total, results);
+    }
 
     [Test, Platform("Win")]
     [TestCase("TestCategory=869", 2, 2)]
@@ -126,8 +126,8 @@ public sealed class FixtureTests : CsProjAcceptanceTests
     [TestCase("TestCategory=918", 1, 1)]
     public void VsTest(string filter, int executed, int total)
     {
-            var workspace = Build();
-            var results = workspace.VSTest($@"bin\Debug\{Framework}\Test.dll", new VsTestTestCaseFilter(filter));
-            Verify(executed, total, results);
-        }
+        var workspace = Build();
+        var results = workspace.VSTest($@"bin\Debug\{Framework}\Test.dll", new VsTestTestCaseFilter(filter));
+        Verify(executed, total, results);
+    }
 }

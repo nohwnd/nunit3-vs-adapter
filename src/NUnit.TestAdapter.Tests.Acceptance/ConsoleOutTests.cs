@@ -7,7 +7,7 @@ public sealed class ConsoleOutTests : CsProjAcceptanceTests
 {
     protected override void AddTestsCs(IsolatedWorkspace workspace)
     {
-            workspace.AddFile("Issue774.cs", @"
+        workspace.AddFile("Issue774.cs", @"
                 using System;
                 using NUnit.Framework;
 
@@ -30,23 +30,23 @@ public sealed class ConsoleOutTests : CsProjAcceptanceTests
                         }
                     }
                 }");
-        }
+    }
 
     protected override string Framework => Frameworks.NetCoreApp31;
 
     [Test, Platform("Win")]
     public void DotNetTest()
     {
-            var workspace = Build();
-            var results = workspace.DotNetTest("", true, true, TestContext.WriteLine);
-            Verify(2, 2, results);
-        }
+        var workspace = Build();
+        var results = workspace.DotNetTest("", true, true, false, TestContext.WriteLine);
+        Verify(2, 2, results);
+    }
 
     [Test, Platform("Win")]
     public void VsTest()
     {
-            var workspace = Build();
-            var results = workspace.VSTest($@"bin\Debug\{Framework}\Test.dll", VsTestFilter.NoFilter);
-            Verify(2, 2, results);
-        }
+        var workspace = Build();
+        var results = workspace.VSTest($@"bin\Debug\{Framework}\Test.dll", VsTestFilter.NoFilter);
+        Verify(2, 2, results);
+    }
 }
